@@ -1,0 +1,32 @@
+.aboutme .hi{
+	color: rgba(0,0,0,0.8);
+	font-size: 150px;
+	display: block;
+	margin-left: -5px;	
+	width: 200px;
+}
+
+.aboutme .name {
+	color: rgba(0,0,0,0.8);
+	font-size: 83px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+body{
+	background: url(http://www.pixeden.com/media/k2/galleries/112/003-subtle-light-pattern-background-texture.jpg);
+	display: block;
+}
+
+body:before{
+	content: "";
+	height: 10px;
+	left: 0;
+	position: fixed;
+	top: -10px;
+	width: 100%;
+	-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.8);
+	-moz-box-shadow: 0 0 10px rgba(0,0,0,0.8);
+	box-shadow: 0 0 10px rgba(0,0,0,0.8);
+	z-index: 100;
+}
