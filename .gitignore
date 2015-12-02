@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# pelican
+output/
+*.pid
+
+# OS
+Thumbs.db
+
+# Arquivos temporarios do Gedit
+*~
+
+# Cache files
+cache/*
+
+# Virtualenv
+env/
