@@ -6,4 +6,4 @@ author: Fellipe Pinheiro
 email: pinheiro.llip@gmail.com
 summary: Hello blog's world.
 
-#First post, just to get ivolved with Pelican. :]
+#First post, just to get involved with Pelican. :]
