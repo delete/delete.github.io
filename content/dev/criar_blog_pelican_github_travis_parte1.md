@@ -1,10 +1,10 @@
-Title: Blog com Pelican, GithubPages e Travis (parte 1/2)
+Title: Blog com Pelican, Github Pages e Travis (parte 1/2)
 date: 2015-12-3 10:30 
-tags: pelican, python 
+tags: pelican, python, travis, github
 slug: criar_blog_pelican_githubpages_travis_parte_1
 author: Fellipe Pinheiro 
 email: pinheiro.llip@gmail.com
-summary: Criando blog estático com Pelican, GithubPages e Travis. Parte 1.
+summary: Criando blog estático com Pelican, Github Pages e Travis. Parte 1.
 
 
 Para estreiar o blog, por que não começar mostrando como ele foi criado?! :]
@@ -13,19 +13,18 @@ Assim mais informações podem ser facilmente compartilhadas.
 
 # Objetivo
 
-Com essa serie de dois posts, iremos criar um blog usando o Pelican e hospeda-lo no Giithub Pages usando o Travis para automatizar o deploy.
+Com essa série de dois posts, iremos criar um blog utilizando o Pelican, hospedá-lo no Github Pages usando o Travis para automatizar o deploy.
 
-Essa primeira parte será apenas a criação e configuração do blog. Na segunda parte será a vinculação com o Travis e o deploy online.
+Essa primeira parte será apenas a criação e configuração do blog. Na segunda, será a integração com o Travis e o deploy online.
 
 ### O que é Pelican?
 
-É um gerador de site estático escrito em Python, que não utiliza banco de dados nem código *server-side*.
+É um gerador de site estático escrito em Python, que não utiliza banco de dados nem código *server-side*. ([mais sobre ele aqui][pelican-url])
 
 Todo o conteúdo é escrito em [Markdown][md-url] ou [reStructuredText][rst-url] e convertido para HTML pelo Pelican.
 
 >OBS1: Irei utilizar o Markdown nesse exemplo.
 
->OBS2: Estou usando Arch Linux como sistema operacional, então pode ser que alguns comandos mude para você.
 
 ### Ferramentas necessárias
 * Git
@@ -36,7 +35,9 @@ Todo o conteúdo é escrito em [Markdown][md-url] ou [reStructuredText][rst-url]
 * Conta no github (é claro :] )
 
 ### Criando o repositório
-Para criarmos o blog, iremos utilizar o [GithubPages][gh-pages-url], que nos da a possibilidade de hospedar um site estático usando o Github. Mas para que funcione, é preciso criar um repositório da seguinte forma: **githubUsername.github.io**
+Para criarmos o blog, iremos utilizar o [GithubPages][gh-pages-url], que nos da a possibilidade de hospedar um site estático usando o Github. Mas para que funcione, é preciso criar um repositório da seguinte forma: **githubUsername.github.io**. 
+
+Não sabe criar um repositório? [Clique aqui][create-repo].
 
 > Meu username é *delete*, logo: delete.github.io
 
@@ -68,7 +69,7 @@ Quem vai cuidar do branch *master* será o *Travis*, que iremos ver adiante.
 Com o repositório já criado, vamos começar a instalar as aplicações que serão instalas na sua maquina:
 
 ```sh
-$ yaourt python-setuptools
+$ sudo apt-get install python-setuptools
 $ sudo easy_install pip
 $ sudo pip install virtualenv
 ```
@@ -87,7 +88,7 @@ Agora sim podemos instalar o Pelican e algumas dependências.
 ```sh
 $ sudo pip install pelican markdown ghp-import shovel
 ```
-Com o Pelican instalado, pode usar o *pelican-quickstart* para criar alguns arquivos de configuração que iremos precisar.
+Com o Pelican instalado, podemos usar o *pelican-quickstart* para criar alguns arquivos iniciais de configuração.
 
 ```sh
 $ pelican-quickstart
@@ -97,7 +98,7 @@ O comando *quickstart* irá fazer várias perguntas, como:
 
 > O que está em **negrito** é a resposta dada. Escolha o que for melhor para você!
 
-* Where do you want to create your new web site? [.] **aperte ENTER**
+* Where do you want to create your new web site? [.] aperte ENTER aqui
 * What will be the title of this web site? **Meu blog**
 * Who will be the author of this web site? **Meu nome**
 * What will be the default language of this web site? [en] **pt**
@@ -123,7 +124,7 @@ Em seguida teremos os seguintes arquivos/diretórios:
 
 ### Primeiro teste
 
-Para testar localmente, usaremos o script *develop_server.sh*, que cria um servidor HTTP na porta 8000.
+Para testar localmente, usamos o script *develop_server.sh*, que cria um servidor HTTP na porta 8000.
 
 ```sh
 $ ./develop_server.sh start
@@ -141,7 +142,7 @@ Tchâram! *Habemus* um blog!
 ![](images/posts/default_blog.jpg)
 
 
-### Configurando O Pelican
+### Configurando o Pelican
 
 Foi criado o arquivo *pelicanconf.py* com o seguinte conteúdo:
 ```sh
@@ -182,7 +183,8 @@ DEFAULT_PAGINATION = 10
 #RELATIVE_URLS = True
 ```
 
-É nesse arquivo que você personalizar as configurações do Pelican, por exemplo:
+É nesse arquivo que você personaliza as configurações do Pelican, por exemplo:
+
 ```sh
 SOCIAL = (('twiiter', 'https://twitter.com/pinheirofellipe'),
           ('github', 'https://github.com/delete'),)
@@ -192,11 +194,12 @@ Para mais exemplo, olhe meu arquivo de configuração [aqui][my-conf].
 
 > Olhe a documentação do tema escolhido, pois haverá dicas de como usar as variáveis.
 
-### Mudando o tema
-No repositório  [pelican-themes] existe N temas disponiveis, só escolher um que lhe agrada e clonar para seu projeto.
 
-Exemplo:
- Gostei do tema [storm], então faço:
+### Mudando o tema
+
+No repositório [pelican-themes] existem N temas disponiveis, só escolher um que lhe agrada e clonar para seu projeto.
+
+Exemplo: Gostei do tema [storm], então faço:
 
 ```sh
 $ git clone https://github.com/redVi/storm.git theme
@@ -204,6 +207,7 @@ $ git clone https://github.com/redVi/storm.git theme
  >Clone o repositório com o nome de "theme" como no comando acima, pois irá facilitar sua vida.
  
 ##### Ativando o novo tema
+
  Adicione a seguinte linha no arquivo *pelicanconf.py*
  
 ```sh
@@ -211,6 +215,7 @@ THEME = 'theme'
 ```
 
 ### Primeiro post
+
 O que é um blog sem post? Nada, né? Então vamos criar nossa primeira postagem!
 
 Crie o arquivo *hello_world.md* dentro do diretório *content*.
@@ -219,7 +224,7 @@ Crie o arquivo *hello_world.md* dentro do diretório *content*.
 $ touch hello_world.md
 ```
 
-Agora adiciona as seguintes linhas:
+Agora adicione as seguintes linhas:
 
 ```sh
 title: Meu primeiro post
@@ -255,8 +260,8 @@ Pronto, temos um blog funcionando!!
 
 ## Outras configurações
 
-### Adicionando arquivo para serem ignorados
-Alguns arquivos *.pyc*, *.pid* entre outros, são gerados e não há vantagem de manda-los para nosso repositório no github. Então iremos adiciona-los ao gitignore.
+### Adicionando arquivos para serem ignorados
+Alguns arquivos *.pyc*, *.pid* entre outros, são gerados e não há vantagem de manda-los para nosso repositório no Github. Então iremos adiciona-los ao gitignore.
 
 Crie o arquivo
 ```sh
@@ -279,8 +284,8 @@ cache/*
 env/
 ```
 
-### Adicionando repositórios remotos para atualização
-Quando tivermos trabalhando com o Travis, iremos ter uma a de atualizar repostório externos, como o nosso repositório de tema. Mas para isso, iremos precisar configuar o arquivo *.gitmodules*. 
+### Adicionando repositórios remotos para atualização automática
+Quando tivermos trabalhando com o Travis, teremos uma opção de atualizar repositórios externos, como o nosso repositório de tema. Mas para isso, iremos precisar configurar o arquivo *.gitmodules*.
 
 Vamos fazer isso de uma vez.
 
@@ -301,7 +306,7 @@ E adicione as seguintes linhas:
 
 ### Primeiro commit
 
-Com as configurações básicas do Pelican e do github feitas, já podemos fazer nosso primeiro commit e enviar nossos arquivos para o Github para salvar as alterações.
+Com as configurações básicas do Pelican e do Github feitas, já podemos fazer nosso primeiro commit e enviar nossos arquivos para o Github para salvar as alterações.
 
 ```sh
 $ git add .
@@ -312,14 +317,15 @@ $ git push origin pelican
 
 # Conclusão
 
-Até aqui já temos nosso blog, mas ainda não está online, isso ficará para a segunda a parte desse tutorial, onde iremos integrar ao Travis, para automatizar nosso deploy para o Github Pages.
+Até aqui já temos nosso blog, mas ainda não está online, isso ficará para a segunda parte desse tutorial, onde iremos integrar ao Travis, para automatizar nosso deploy para o Github Pages.
 
 
 > Stay tuned!
-
+ [pelican-url]: <http://blog.getpelican.com/>
  [md-url]: <https://help.github.com/articles/markdown-basics>
  [rst-url]: <http://docutils.sourceforge.net/rst.html>
  [gh-pages-url]: <https://pages.github.com/>
+ [create-repo]: <https://help.github.com/articles/create-a-repo/>
  [pelican-themes]: <https://github.com/getpelican/pelican-themes>
  [storm]: <https://github.com/redVi/storm>
  [my-conf]: <https://github.com/delete/delete.github.io/blob/pelican/pelicanconf.py>
