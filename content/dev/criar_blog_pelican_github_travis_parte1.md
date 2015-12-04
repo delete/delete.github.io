@@ -320,7 +320,10 @@ $ git push origin pelican
 Até aqui já temos nosso blog, mas ainda não está online, isso ficará para a segunda parte desse tutorial, onde iremos integrar ao Travis, para automatizar nosso deploy para o Github Pages.
 
 
-> Stay tuned!
+#### Veja a [parte 2 aqui.](criar_blog_pelican_githubpages_travis_parte_2.html)
+
+
+
  [pelican-url]: <http://blog.getpelican.com/>
  [md-url]: <https://help.github.com/articles/markdown-basics>
  [rst-url]: <http://docutils.sourceforge.net/rst.html>
