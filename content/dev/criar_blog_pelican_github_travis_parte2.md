@@ -63,7 +63,7 @@ Esse arquivo basicamente diz para ao Travis o que ele precisa executar em determ
 
 # Instalação do Travis
 
-Para instalar o Travis, será preciso instalar o Ruby antes, pois iremos utilizar o *gem*, que é o gerenciador de pactes do dele.
+Para instalar o Travis, será preciso instalar o Ruby antes, pois iremos utilizar o *gem*, que é o gerenciador de pacotes dele.
 
 ```sh
 $ sudo apt-get install ruby-full
