@@ -6,8 +6,8 @@ AUTHOR = u'Fellipe Pinheiro'
 AUTHOR_EMAIL = u'pinheiro.llip@gmail.com'
 SITENAME = u"DeLeTe's blog"
 SITEURL = u'http://localhost:8000/'
-FAVICON = SITEURL + u'/images/favicon.png'
-SITELOGO = SITEURL + u'/images/profile.jpg'
+FAVICON = SITEURL + u'images/favicon.png'
+SITELOGO = SITEURL + u'images/profile.jpg'
 
 PATH = 'content'
 
