@@ -13,7 +13,7 @@ Assim mais informações podem ser facilmente compartilhadas.
 
 # Objetivo
 
-Com essa série de dois posts, iremos criar um blog utilizando o Pelican, hospedá-lo no Github Pages usando o Travis para automatizar o deploy.
+Com essa série de dois posts, iremos criar um blog utilizando o Pelican, hospedá-lo no Github Pages e usar o Travis para automatizar o deploy.
 
 Essa primeira parte será apenas a criação e configuração do blog. Na segunda, será a integração com o Travis e o deploy online.
 
