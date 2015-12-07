@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = u'Fellipe Pinheiro'
 AUTHOR_EMAIL = u'pinheiro.llip@gmail.com'
 SITENAME = u"DeLeTe's blog"
-SITEURL = u'http://localhost:8000/'
+SITEURL = u'http://delete.github.io'
 FAVICON = SITEURL + u'images/favicon.png'
 SITELOGO = SITEURL + u'images/profile.jpg'
 
