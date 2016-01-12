@@ -165,7 +165,7 @@ Dúvidas? Perguntas? Sugestões? Entre em contato. Até!
 # Referências
 
 
-* Blog PythonClub - [https://github.com/pythonclub/pythonclub.github.io](https://github.com/pythonclub/pythonclub.github.io])
+* Blog PythonClub - [https://github.com/pythonclub/pythonclub.github.io](https://github.com/pythonclub/pythonclub.github.io)
 
 * Travis - [https://travis-ci.org/](https://travis-ci.org/)
 
