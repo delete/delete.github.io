@@ -19,7 +19,7 @@ You can see all of my projects on my [Github](https://github.com/delete).
 ## Basic knowledge
 
 * MEAN: Mongo, Express, Angular, Node;
-* C e Java (faculdade);
+* C e Java (college);
 * Shell Script;
 * Python/Flask;
 * Python/PyQT4;
@@ -28,9 +28,9 @@ You can see all of my projects on my [Github](https://github.com/delete).
 
 ## Current stack 
 
-* Python/Django com TDD;
+* Python/Django with TDD;
 * Twitter Bootstrap;
-* Javascript, HTML5, CSS3(básico);
+* Javascript, HTML5, CSS3(basic);
 * GIT;
 * Docker;
 * Travis CI.
