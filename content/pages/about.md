@@ -30,7 +30,8 @@ You can see all of my projects on my [Github](https://github.com/delete).
 
 * Python/Django with TDD;
 * Twitter Bootstrap;
-* Javascript, HTML5, CSS3(basic);
+* Javascript/Jquery, HTML5, CSS3; (basic)
 * GIT;
 * Docker;
 * Travis CI.
+- PHP with TDD
