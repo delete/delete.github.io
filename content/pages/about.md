@@ -1,8 +1,8 @@
 Title: About
 
-Hi, my name is Fellipe and yes, i'm still setting up this blog. :]
+Hi, my name is Fellipe and I'm a Front-End developer at *Alterdata Software* and full-stack open source lover. :]
 
-You can see all of my projects on my [Github](https://github.com/delete).
+You can see all of my open source projects on my [Github](https://github.com/delete).
 
 ## Academic qualifications
 
@@ -16,22 +16,11 @@ You can see all of my projects on my [Github](https://github.com/delete).
 * [BE MEAN (incomplete)](http://bemean.com.br/videos/#introduction).
 
 
-## Basic knowledge
-
-* MEAN: Mongo, Express, Angular, Node;
-* C e Java (college);
-* Shell Script;
-* Python/Flask;
-* Python/PyQT4;
-* Python/Scrapy.
-
-
 ## Current stack 
 
-* Python/Django with TDD;
-* Twitter Bootstrap;
-* Javascript/Jquery, HTML5, CSS3; (basic)
-* GIT;
-* Docker;
-* Travis CI.
-- PHP with TDD
+* Python/Django/Flask;
+* Shell Script
+* Javascript/Jquery, HTML5, CSS3;
+* AngularJS + AngularJS Material;
+* Electron;
+* Docker.
