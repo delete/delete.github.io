@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = u'Fellipe Pinheiro'
 AUTHOR_EMAIL = u'pinheiro.llip@gmail.com'
 SITENAME = u"DeLeTe's blog"
-SITEURL = u'https://delete.github.io/'
+SITEURL = u'http://delete.github.io/'
 FAVICON = SITEURL + u'images/favicon.png'
 SITELOGO = SITEURL + u'images/profile.jpg'
 
@@ -23,7 +23,7 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-# LINKS = (('Python.org', 'http://python.org/'),
+#LINKS = (('Python.org', 'http://python.org/'),
 #         ('Jinja2', 'http://jinja.pocoo.org/'),)
 
 # Menu
