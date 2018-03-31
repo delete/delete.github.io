@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+          <title>DeLeTe's blog</title>
+        <meta charset="utf-8" />
+
+
+
+    <meta name="tags" content="pelican" />
+    <meta name="tags" content="python" />
+    <meta name="tags" content="travis" />
+    <meta name="tags" content="github" />
+
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://delete.github.io/">DeLeTe's blog <strong></strong></a></h1>
+        </header><!-- /#banner -->
+        <nav id="menu"><ul>
+            <li><a href="/archives.html">Archives</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li><a href="/tags.html">Tags</a></li>
+            <li><a href="http://delete.github.io/pages/about.html">About</a></li>
+        </ul></nav><!-- /#menu -->
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="http://delete.github.io/criar_blog_pelican_githubpages_travis_parte_1.html" rel="bookmark"
+         title="Permalink to Blog com Pelican, Github Pages e Travis (parte 1/2)">Blog com Pelican, Github Pages e Travis (parte 1/2)</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+    <abbr class="published" title="2015-12-03T10:30:00-02:00">
+      Qui 03 dezembro 2015
+    </abbr>
+    <address class="vcard author">
+      By           <a class="url fn" href="http://delete.github.io/author/fellipe-pinheiro.html">Fellipe Pinheiro</a>
+    </address>
+  </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <p>Para estreiar o blog, por que não começar mostrando como ele foi criado?! :]</p>
+<p>Assim mais informações podem ser facilmente compartilhadas.</p>
+<h1>Objetivo</h1>
+<p>Com essa série de dois posts, iremos criar um blog utilizando o Pelican, hospedá-lo no Github Pages e usar o Travis para automatizar o deploy.</p>
+<p>Essa primeira parte será apenas a criação e configuração do blog. Na segunda, será a integração com o Travis e o deploy online.</p>
+<h3>O que é Pelican?</h3>
+<p>É um gerador de site estático escrito em Python, que não utiliza banco de dados nem código <em>server-side</em>. (<a href="http://blog.getpelican.com/">mais sobre ele aqui</a>)</p>
+<p>Todo o conteúdo é escrito em <a href="https://help.github.com/articles/markdown-basics">Markdown</a> ou <a href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> e convertido para HTML pelo Pelican.</p>
+<blockquote>
+<p>OBS1: Irei utilizar o Markdown nesse exemplo.</p>
+</blockquote>
+<h3>Ferramentas necessárias</h3>
+<ul>
+<li>Git</li>
+<li>Python 2.7</li>
+<li>easy_install (para instalar o pip)</li>
+<li>pip</li>
+<li>virtualenv</li>
+<li>Conta no github (é claro :] )</li>
+</ul>
+<h3>Criando o repositório</h3>
+<p>Para criarmos o blog, iremos utilizar o <a href="https://pages.github.com/">GithubPages</a>, que nos da a possibilidade de hospedar um site estático usando o Github. Mas para que funcione, é preciso criar um repositório da seguinte forma: <strong>githubUsername.github.io</strong>. </p>
+<p>Não sabe criar um repositório? <a href="https://help.github.com/articles/create-a-repo/">Clique aqui</a>.</p>
+<blockquote>
+<p>Meu username é <em>delete</em>, logo: delete.github.io</p>
+</blockquote>
+<h3>Clonando o repositório</h3>
+<p>Depois de criado, agora é hora de clonar o repositório.</p>
+<div class="highlight"><pre><span></span>$ git clone git@github.com:githubUsername/githubUsername.github.io.git
+$ <span class="nb">cd</span> githubUsername.github.io.git
+</pre></div>
+
+
+<blockquote>
+<p>Troque o githubUsername pelo seu username!</p>
+</blockquote>
+<h3>Criando branch para os arquivos do Pelican</h3>
+<p>Depois de clonado o repositório, o git irá criar o branch <em>master</em> como padrão. </p>
+<p>Aqui tem um truque: o Github pôe online só os arquivo que estão no <em>master</em>, mas iremos criar vários arquivos de configurações e scripts, então iremos separar em dois branches:
+<em> master - Para arquivos HTML que o Pelican gera;
+</em> pelican - Todos os outros arquivos(configurações, scripts, etc).</p>
+<div class="highlight"><pre><span></span>$ git checkout -b pelican
+</pre></div>
+
+
+<p>Agora que o branch <em>pelican</em> está criado, iremos <strong>sempre</strong> trabalhar nele!
+Quem vai cuidar do branch <em>master</em> será o <em>Travis</em>, que iremos ver adiante.</p>
+<h3>Ferramentas necessárias</h3>
+<p>Com o repositório já criado, vamos começar a instalar as aplicações que serão instalas na sua maquina:</p>
+<div class="highlight"><pre><span></span>$ sudo apt-get install python-setuptools
+$ sudo easy_install pip
+$ sudo pip install virtualenv
+</pre></div>
+
+
+<h3>Configurando ambiente de desenvolvimento</h3>
+<p>Iremos usar o <em>virtualenv</em> para criar um ambiente de desenvolvimento virtual(isolado da maquina principal), onde iremos instalar as bibliotecas necessárias para nosso projeto.</p>
+<div class="highlight"><pre><span></span>$ virtualenv -p python2.7 env
+</pre></div>
+
+
+<p>Com a flag "-p" podemos escolher com qual versão do Python iremos trabalhar. No nosso caso, o Python 2.7. "env" é o diretório do nosso ambiente virtual.</p>
+<h3>Instalação</h3>
+<p>Agora sim podemos instalar o Pelican e algumas dependências.</p>
+<div class="highlight"><pre><span></span>$ sudo pip install pelican markdown ghp-import shovel
+</pre></div>
+
+
+<p>Com o Pelican instalado, podemos usar o <em>pelican-quickstart</em> para criar alguns arquivos iniciais de configuração.</p>
+<div class="highlight"><pre><span></span>$ pelican-quickstart
+</pre></div>
+
+
+<p>O comando <em>quickstart</em> irá fazer várias perguntas, como:</p>
+<blockquote>
+<p>O que está em <strong>negrito</strong> é a resposta dada. Escolha o que for melhor para você!</p>
+</blockquote>
+<ul>
+<li>Where do you want to create your new web site? [.] aperte ENTER aqui</li>
+<li>What will be the title of this web site? <strong>Meu blog</strong></li>
+<li>Who will be the author of this web site? <strong>Meu nome</strong></li>
+<li>What will be the default language of this web site? [en] <strong>pt</strong></li>
+<li>Do you want to specify a URL prefix? e.g., http://example.com   (Y/n) <strong>Y</strong></li>
+<li>What is your URL prefix? (see above example; no trailing slash) <strong>https://githubUsername.github.io</strong></li>
+<li>Do you want to enable article pagination? (Y/n) <strong>Y</strong></li>
+<li>How many articles per page do you want? [10] <strong>10</strong></li>
+<li>What is your time zone? [Europe/Paris] <strong>America/Sao_Paulo</strong></li>
+<li>Do you want to generate a Fabfile/Makefile to automate generation and publishing? (Y/n) <strong>Y</strong></li>
+<li>Do you want an auto-reload &amp; simpleHTTP script to assist with theme and site development? (Y/n) <strong>Y</strong></li>
+<li>Do you want to upload your website using FTP? (y/N) <strong>N</strong></li>
+<li>Do you want to upload your website using SSH? (y/N) <strong>N</strong></li>
+<li>Do you want to upload your website using Dropbox? (y/N) <strong>N</strong></li>
+<li>Do you want to upload your website using S3? (y/N) <strong>N</strong></li>
+<li>Do you want to upload your website using Rackspace Cloud Files? (y/N) <strong>N</strong></li>
+<li>Do you want to upload your website using GitHub Pages? (y/N) <strong>Y</strong></li>
+<li>Is this your personal page (username.github.io)? (y/N) <strong>Y</strong>
+Done. Your new project is available at...</li>
+</ul>
+<p>Em seguida teremos os seguintes arquivos/diretórios:</p>
+<p><img alt="" src="images/posts/tree.jpg" /></p>
+<h3>Primeiro teste</h3>
+<p>Para testar localmente, usamos o script <em>develop_server.sh</em>, que cria um servidor HTTP na porta 8000.</p>
+<div class="highlight"><pre><span></span>$ ./develop_server.sh start
+</pre></div>
+
+
+<p>Para parar o servidor:</p>
+<div class="highlight"><pre><span></span>$ ./develop_server.sh stop
+</pre></div>
+
+
+<p>Acesse pelo navegador o endereço e...</p>
+<div class="highlight"><pre><span></span>http://localhost:8000/
+</pre></div>
+
+
+<p>Tchâram! <em>Habemus</em> um blog!</p>
+<p><img alt="" src="images/posts/default_blog.jpg" /></p>
+<h3>Configurando o Pelican</h3>
+<p>Foi criado o arquivo <em>pelicanconf.py</em> com o seguinte conteúdo:</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*- #</span>
+from __future__ import unicode_literals
+
+<span class="nv">AUTHOR</span> <span class="o">=</span> u<span class="s1">&#39;Meu nome&#39;</span>
+<span class="nv">SITENAME</span> <span class="o">=</span> u<span class="s1">&#39;Meu blog&#39;</span>
+<span class="nv">SITEURL</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+<span class="nv">PATH</span> <span class="o">=</span> <span class="s1">&#39;content&#39;</span>
+
+<span class="nv">TIMEZONE</span> <span class="o">=</span> <span class="s1">&#39;America/Sao_Paulo&#39;</span>
+
+<span class="nv">DEFAULT_LANG</span> <span class="o">=</span> u<span class="s1">&#39;pt&#39;</span>
+
+<span class="c1"># Feed generation is usually not desired when developing</span>
+<span class="nv">FEED_ALL_ATOM</span> <span class="o">=</span> None
+<span class="nv">CATEGORY_FEED_ATOM</span> <span class="o">=</span> None
+<span class="nv">TRANSLATION_FEED_ATOM</span> <span class="o">=</span> None
+<span class="nv">AUTHOR_FEED_ATOM</span> <span class="o">=</span> None
+<span class="nv">AUTHOR_FEED_RSS</span> <span class="o">=</span> None
+
+<span class="c1"># Blogroll</span>
+<span class="nv">LINKS</span> <span class="o">=</span> <span class="o">((</span><span class="s1">&#39;Pelican&#39;</span>, <span class="s1">&#39;http://getpelican.com/&#39;</span><span class="o">)</span>,
+         <span class="o">(</span><span class="s1">&#39;Python.org&#39;</span>, <span class="s1">&#39;http://python.org/&#39;</span><span class="o">)</span>,
+         <span class="o">(</span><span class="s1">&#39;Jinja2&#39;</span>, <span class="s1">&#39;http://jinja.pocoo.org/&#39;</span><span class="o">)</span>,
+         <span class="o">(</span><span class="s1">&#39;You can modify those links in your config file&#39;</span>, <span class="s1">&#39;#&#39;</span><span class="o">)</span>,<span class="o">)</span>
+
+<span class="c1"># Social widget</span>
+<span class="nv">SOCIAL</span> <span class="o">=</span> <span class="o">((</span><span class="s1">&#39;You can add links in your config file&#39;</span>, <span class="s1">&#39;#&#39;</span><span class="o">)</span>,
+          <span class="o">(</span><span class="s1">&#39;Another social link&#39;</span>, <span class="s1">&#39;#&#39;</span><span class="o">)</span>,<span class="o">)</span>
+
+<span class="nv">DEFAULT_PAGINATION</span> <span class="o">=</span> 10
+
+<span class="c1"># Uncomment following line if you want document-relative URLs when developing</span>
+<span class="c1">#RELATIVE_URLS = True</span>
+</pre></div>
+
+
+<p>É nesse arquivo que você personaliza as configurações do Pelican, por exemplo:</p>
+<div class="highlight"><pre><span></span><span class="nv">SOCIAL</span> <span class="o">=</span> <span class="o">((</span><span class="s1">&#39;twiiter&#39;</span>, <span class="s1">&#39;https://twitter.com/pinheirofellipe&#39;</span><span class="o">)</span>,
+          <span class="o">(</span><span class="s1">&#39;github&#39;</span>, <span class="s1">&#39;https://github.com/delete&#39;</span><span class="o">)</span>,<span class="o">)</span>
+</pre></div>
+
+
+<p>Para mais exemplo, olhe meu arquivo de configuração <a href="https://github.com/delete/delete.github.io/blob/pelican/pelicanconf.py">aqui</a>.</p>
+<blockquote>
+<p>Olhe a documentação do tema escolhido, pois haverá dicas de como usar as variáveis.</p>
+</blockquote>
+<h3>Mudando o tema</h3>
+<p>No repositório <a href="https://github.com/getpelican/pelican-themes">pelican-themes</a> existem N temas disponiveis, só escolher um que lhe agrada e clonar para seu projeto.</p>
+<p>Exemplo: Gostei do tema <a href="https://github.com/redVi/storm">storm</a>, então faço:</p>
+<div class="highlight"><pre><span></span>$ git clone https://github.com/redVi/storm.git theme
+</pre></div>
+
+
+<blockquote>
+<p>Clone o repositório com o nome de "theme" como no comando acima, pois irá facilitar sua vida.</p>
+</blockquote>
+<h5>Ativando o novo tema</h5>
+<p>Adicione a seguinte linha no arquivo <em>pelicanconf.py</em></p>
+<div class="highlight"><pre><span></span><span class="nv">THEME</span> <span class="o">=</span> <span class="s1">&#39;theme&#39;</span>
+</pre></div>
+
+
+<h3>Primeiro post</h3>
+<p>O que é um blog sem post? Nada, né? Então vamos criar nossa primeira postagem!</p>
+<p>Crie o arquivo <em>hello_world.md</em> dentro do diretório <em>content</em>.</p>
+<div class="highlight"><pre><span></span>$ touch hello_world.md
+</pre></div>
+
+
+<p>Agora adicione as seguintes linhas:</p>
+<div class="highlight"><pre><span></span>title: Meu primeiro post
+date: 2015-12-2 20:20 
+tags: news
+slug: hello_world
+author: Meu nome
+email: meu@email.com
+summary: Meu primeiro post Hello World
+
+<span class="c1"># Hello world!</span>
+
+Esse é meu primeiro post!
+</pre></div>
+
+
+<p>Agora precisamos converter o arquivo Markdown em HTML com o comando:</p>
+<div class="highlight"><pre><span></span>$ pelican content -s pelicanconf.py
+&gt; Done: Processed <span class="m">1</span> article, <span class="m">0</span> drafts, <span class="m">0</span> pages and <span class="m">0</span> hidden pages in 0.17 seconds.
+</pre></div>
+
+
+<p>Vamos ver como ficou?</p>
+<div class="highlight"><pre><span></span>$ ./develop_server.sh start
+</pre></div>
+
+
+<p><img alt="" src="images/posts/first_post.jpg" /></p>
+<p>Pronto, temos um blog funcionando!!</p>
+<h2>Outras configurações</h2>
+<h3>Adicionando arquivos para serem ignorados</h3>
+<p>Alguns arquivos <em>.pyc</em>, <em>.pid</em> entre outros, são gerados e não há vantagem de manda-los para nosso repositório no Github. Então iremos adiciona-los ao gitignore.</p>
+<p>Crie o arquivo</p>
+<div class="highlight"><pre><span></span>$ touch .gitignore
+</pre></div>
+
+
+<p>E adicione as seguintes linhas:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Python</span>
+__pycache__/
+*.py<span class="o">[</span>cod<span class="o">]</span>
+
+<span class="c1"># pelican</span>
+output/
+*.pid
+
+<span class="c1"># Cache files</span>
+cache/*
+
+<span class="c1"># Virtualenv</span>
+env/
+</pre></div>
+
+
+<h3>Adicionando repositórios remotos para atualização automática</h3>
+<p>Quando tivermos trabalhando com o Travis, teremos uma opção de atualizar repositórios externos, como o nosso repositório de tema. Mas para isso, iremos precisar configurar o arquivo <em>.gitmodules</em>.</p>
+<p>Vamos fazer isso de uma vez.</p>
+<p>Crie o arquivo</p>
+<div class="highlight"><pre><span></span>$ touch .gitmodules
+</pre></div>
+
+
+<p>E adicione as seguintes linhas:</p>
+<div class="highlight"><pre><span></span><span class="o">[</span>submodule <span class="s2">&quot;storm&quot;</span><span class="o">]</span>
+    <span class="nv">path</span> <span class="o">=</span> theme
+    <span class="nv">url</span> <span class="o">=</span> https://github.com/redVi/storm
+    <span class="nv">branch</span> <span class="o">=</span> master
+</pre></div>
+
+
+<blockquote>
+<p>Troque o nome e a url pelo do tema escolhido!</p>
+</blockquote>
+<h3>Primeiro commit</h3>
+<p>Com as configurações básicas do Pelican e do Github feitas, já podemos fazer nosso primeiro commit e enviar nossos arquivos para o Github para salvar as alterações.</p>
+<div class="highlight"><pre><span></span>$ git add .
+$ git commit -m <span class="s2">&quot;Primeiro commit&quot;</span>
+$ git push origin pelican
+</pre></div>
+
+
+<h1>Conclusão</h1>
+<p>Até aqui já temos nosso blog, mas ainda não está online, isso ficará para a segunda parte desse tutorial, onde iremos integrar ao Travis, para automatizar nosso deploy para o Github Pages.</p>
+<h4>Veja a <a href="criar_blog_pelican_githubpages_travis_parte_2.html">parte 2 aqui.</a></h4>
+  </div><!-- /.entry-content -->
+</section>
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+          <title>DeLeTe's blog</title>
+        <meta charset="utf-8" />
+
+
+
+    <meta name="tags" content="pelican" />
+    <meta name="tags" content="python" />
+    <meta name="tags" content="travis" />
+    <meta name="tags" content="github" />
+
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://delete.github.io/">DeLeTe's blog <strong></strong></a></h1>
+        </header><!-- /#banner -->
+        <nav id="menu"><ul>
+            <li><a href="/archives.html">Archives</a></li>
+            <li><a href="/categories.html">Categories</a></li>
+            <li><a href="/tags.html">Tags</a></li>
+            <li><a href="http://delete.github.io/pages/about.html">About</a></li>
+        </ul></nav><!-- /#menu -->
+<section id="content" class="body">
+  <header>
+    <h2 class="entry-title">
+      <a href="http://delete.github.io/criar_blog_pelican_githubpages_travis_parte_2.html" rel="bookmark"
+         title="Permalink to Blog com Pelican, Github Pages e Travis (parte 2/2)">Blog com Pelican, Github Pages e Travis (parte 2/2)</a></h2>
+ 
+  </header>
+  <footer class="post-info">
+    <abbr class="published" title="2015-12-03T11:00:00-02:00">
+      Qui 03 dezembro 2015
+    </abbr>
+    <address class="vcard author">
+      By           <a class="url fn" href="http://delete.github.io/author/fellipe-pinheiro.html">Fellipe Pinheiro</a>
+    </address>
+  </footer><!-- /.post-info -->
+  <div class="entry-content">
+    <p>Dando sequência ao <a href="criar_blog_pelican_githubpages_travis_parte_1.html">primeiro post</a>, agora iremos integrar nosso blog ao Travis.</p>
+<h1>O que é Travis?</h1>
+<p>O <a href="https://travis-ci.org/">Travis</a> é um automatizador de <em>build</em> e <em>deploy</em> de aplicações.</p>
+<p>Ele basicamente vai testar(<em>unit tests</em>), gerar o "<em>build</em>"(no nosso blog será os arquivos HTML) e fazer o <em>deploy</em> da aplicação para algum servidor(pra gente será o Github Pages).</p>
+<h1>Ativando Travis</h1>
+<p>Acesse o site do <a href="https://travis-ci.org/">Travis</a>, faça login com sua conta do Github e siga as instruções para ativar seu repositório do blog.</p>
+<h1>Configurações do Travis</h1>
+<p>Para ativar o Travis também precisamos de um arquivo de configuração, chamado <em>.travis.yml</em>.</p>
+<p>Vamos cria-lo.</p>
+<div class="highlight"><pre><span></span>$ touch .travis.yml
+</pre></div>
+
+
+<p>Nesse arquivo teremos os seguintes dados:</p>
+<div class="highlight"><pre><span></span>branches:
+  only:
+  - pelican
+language: python
+python:
+- 2.7
+install:
+- pip install -r requirements.txt
+script:
+- make publish
+notifications:
+  email:
+    on_success: never
+    on_failure: never
+env:
+  global:
+
+before_install:
+- git submodule update --init --recursive
+after_success: bash deploy.sh
+</pre></div>
+
+
+<p>Esse arquivo basicamente diz para ao Travis o que ele precisa executar em determinado momento.</p>
+<h1>Instalação do Travis</h1>
+<p>Para instalar o Travis, será preciso instalar o Ruby antes, pois iremos utilizar o <em>gem</em>, que é o gerenciador de pacotes dele.</p>
+<div class="highlight"><pre><span></span>$ sudo apt-get install ruby-full
+$ sudo gem install travis
+</pre></div>
+
+
+<h1>Autenticando com Github</h1>
+<p>Para que o Travis possa dar <em>push</em> para o repositório <em>master</em> no Github, é preciso que ele se autentique antes. Para isso, iremos utilizar o <em>token</em> de acesso. </p>
+<p>Para gerar o <em>token</em>, é preciso entrar no <em>settings</em> do seu Github e ir na opção de "<em>Personal access tokens</em>", ou clique <a href="https://github.com/settings/tokens">aqui</a>.</p>
+<p>Depois de instalado o Travis e com o token em mãos, é hora de vincular o <em>token</em> ao Travis, para isso rode o comando abaixo <strong>dentro do seu repositório</strong> do blog.</p>
+<div class="highlight"><pre><span></span>$ travis encrypt <span class="nv">GH_TOKEN</span><span class="o">=</span>SEU_TOKEN_AQUI --add env.global
+</pre></div>
+
+
+<blockquote>
+<p>OBS: Se o comando acima funcionar para você, ignore esse aviso.</p>
+<p>Eu tive problema na hora de executar o Travis, ele só funciona se eu o rodar direto de seu local de instalação:</p>
+<p>~/.gem/ruby/2.2.0/gems/travis-1.8.0/bin/travis </p>
+</blockquote>
+<h1>Script para deploy</h1>
+<p>Para que toda a beleza aconteça, precisamos dar ao Travis um script que faça o <em>commit</em> e o <em>push</em> dos arquivos estáticos para nosso repositório <em>master</em> de uma forma automatizada.</p>
+<p>Crie o arquivo <em>deploy.sh</em>.</p>
+<div class="highlight"><pre><span></span>$ touch deploy.sh
+</pre></div>
+
+
+<p>Agora adicione as seguintes linhas:</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+<span class="nv">BRANCH</span><span class="o">=</span>master
+<span class="nv">TARGET_REPO</span><span class="o">=</span>githubUsername/githubUsername.github.io
+<span class="nv">PELICAN_OUTPUT_FOLDER</span><span class="o">=</span>output
+
+<span class="nb">echo</span> -e <span class="s2">&quot;Testing travis-encrypt&quot;</span>
+<span class="nb">echo</span> -e <span class="s2">&quot;</span><span class="nv">$VARNAME</span><span class="s2">&quot;</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_PULL_REQUEST</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> -e <span class="s2">&quot;Starting to deploy to Github Pages\n&quot;</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        git config --global user.email <span class="s2">&quot;SEU_EMAIL_DO_GITHUB&quot;</span>
+        git config --global user.name <span class="s2">&quot;SEU_NOME&quot;</span>
+    <span class="k">fi</span>
+    <span class="c1"># using token clone gh-pages branch</span>
+    git clone --quiet --branch<span class="o">=</span><span class="nv">$BRANCH</span> https://<span class="si">${</span><span class="nv">GH_TOKEN</span><span class="si">}</span>@github.com/<span class="nv">$TARGET_REPO</span> built_website &gt; /dev/null
+    <span class="c1"># go into directory and copy data we&#39;re interested in to that directory</span>
+    <span class="nb">cd</span> built_website
+    <span class="c1"># limpa branch master para nao ficar arquivos lixo, como arquivos excluidos e/ou renomeados</span>
+    find . -maxdepth <span class="m">1</span> ! -name <span class="s1">&#39;.git&#39;</span> ! -name <span class="s1">&#39;.*&#39;</span> <span class="p">|</span> xargs rm -rf
+    rsync -rv --exclude<span class="o">=</span>.git  ../<span class="nv">$PELICAN_OUTPUT_FOLDER</span>/* .
+    <span class="c1"># add, commit and push files</span>
+    git add --all -f .
+    git commit -m <span class="s2">&quot;Travis build </span><span class="nv">$TRAVIS_BUILD_NUMBER</span><span class="s2"> pushed to Github Pages&quot;</span>
+    git push -fq origin <span class="nv">$BRANCH</span> &gt; /dev/null
+    <span class="nb">echo</span> -e <span class="s2">&quot;Deploy completed\n&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+
+
+<blockquote>
+<p>Não entrarei em detalhes do que cada linha do script faz, apenas mude as variáveis para seus dados.</p>
+</blockquote>
+<h1>Deploy</h1>
+<p>Sempre que quiser criar um novo post, crie um arquivo dentro do diretório <em>content</em>, e envie para o <em>branch</em> <em>pelican</em> no Github.</p>
+<div class="highlight"><pre><span></span>$ git add .
+$ git commit -m <span class="s2">&quot;Novo post&quot;</span>
+$ git push origin pelican
+</pre></div>
+
+
+<p>Agora sim! Se tudo ocorreu bem até aqui, no site do Travis, ele irá mostrar se deu tudo certo ou se deu erro, e qual erro deu.</p>
+<h4>Exemplo de mensagem de sucesso do Travis:</h4>
+<p><img alt="Mensagem de sucesso do Travis" src="images/posts/travis.jpg" /></p>
+<h1>Conclusão</h1>
+<p>À primeira vista pode parecer um pouco complicado, mas depois de configurado é bem fácil fazer novas publicações.</p>
+<p>Dúvidas? Perguntas? Sugestões? Entre em contato. Até!</p>
+<hr />
+<h1>Referências</h1>
+<ul>
+<li>
+<p>Blog PythonClub - <a href="https://github.com/pythonclub/pythonclub.github.io">https://github.com/pythonclub/pythonclub.github.io</a></p>
+</li>
+<li>
+<p>Travis - <a href="https://travis-ci.org/">https://travis-ci.org/</a></p>
+</li>
+<li>
+<p>Markdown - <a href="https://help.github.com/articles/markdown-basics">https://help.github.com/articles/markdown-basics</a></p>
+</li>
+<li>
+<p>reStructuredText - <a href="http://docutils.sourceforge.net/rst.html">http://docutils.sourceforge.net/rst.html</a></p>
+</li>
+<li>
+<p>Github Pages - <a href="https://pages.github.com/">https://pages.github.com/</a></p>
+</li>
+<li>
+<p>Pelican - <a href="http://blog.getpelican.com/">http://blog.getpelican.com/</a></p>
+</li>
+<li>
+<p>Pelican Themes - <a href="https://github.com/getpelican/pelican-themes">https://github.com/getpelican/pelican-themes</a></p>
+</li>
+<li>
+<p><a href="https://gist.github.com/josefjezek/6053301">https://gist.github.com/josefjezek/6053301</a></p>
+</li>
+<li>
+<p><a href="http://zonca.github.io/2013/09/automatically-build-pelican-and-publish-to-github-pages.html">http://zonca.github.io/2013/09/automatically-build-pelican-and-publish-to-github-pages.html</a></p>
+</li>
+<li>
+<p><a href="http://blog.mathieu-leplatre.info/publish-your-pelican-blog-on-github-pages-via-travis-ci.html">http://blog.mathieu-leplatre.info/publish-your-pelican-blog-on-github-pages-via-travis-ci.html</a></p>
+</li>
+<li>
+<p><a href="https://fedoramagazine.org/make-github-pages-blog-with-pelican/">https://fedoramagazine.org/make-github-pages-blog-with-pelican/</a></p>
+</li>
+</ul>
+<hr />
+  </div><!-- /.entry-content -->
+</section>
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+</body>
+</html>
