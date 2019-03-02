@@ -1,0 +1,47 @@
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.intro__name {
+  font-size: 3rem;
+  font-weight: 700;
+}
+.intro__summary {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  font-weight: 300;
+}
+
+.social-icons {
+  margin-top: 20px;
+}
+
+.social-icons__icon {
+  margin: 0 0.5rem;
+}
+
+.svg-inline__fa {
+  width: 1.5rem;
+}
+
+.alterdata-link {
+  color: #490f9e;
+}
+
+.alterdata-link > span {
+  color: inherit;
+  position: relative;
+}
+
+.alterdata-link > span::after {
+  content: "";
+  position: absolute;
+  background-color: #490f9e;
+  bottom: -2px;
+  height: 2px;
+  left: 0;
+  width: 100%;
+  display: block;
+}

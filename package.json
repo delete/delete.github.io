@@ -1,59 +1,43 @@
 {
-  "name": "delete.github.io",
-  "version": "0.1.0",
+  "name": "gatsby-starter-default",
   "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
+  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "version": "0.1.0",
+  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
-    "register-service-worker": "^1.0.0",
-    "vue": "^2.5.13",
-    "vue-router": "^3.0.1"
+    "gatsby": "^2.1.19",
+    "gatsby-image": "^2.0.30",
+    "gatsby-plugin-manifest": "^2.0.20",
+    "gatsby-plugin-offline": "^2.0.24",
+    "gatsby-plugin-react-helmet": "^3.0.7",
+    "gatsby-plugin-sharp": "^2.0.23",
+    "gatsby-source-filesystem": "^2.0.23",
+    "gatsby-transformer-sharp": "^2.1.15",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-helmet": "^5.2.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-beta.6",
-    "@vue/cli-plugin-eslint": "^3.0.0-beta.6",
-    "@vue/cli-plugin-pwa": "^3.0.0-beta.6",
-    "@vue/cli-service": "^3.0.0-beta.6",
-    "@vue/eslint-config-airbnb": "^3.0.0-beta.6",
-    "lint-staged": "^6.0.0",
-    "vue-template-compiler": "^2.5.13"
+    "prettier": "^1.16.4"
   },
-  "babel": {
-    "presets": [
-      "@vue/app"
-    ]
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/airbnb"
-    ]
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+  "keywords": [
+    "gatsby"
   ],
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write src/**/*.{js,jsx}",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
   },
-  "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+  },
+  "bugs": {
+    "url": "https://github.com/gatsbyjs/gatsby/issues"
   }
 }
