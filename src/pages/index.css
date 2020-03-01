@@ -26,16 +26,20 @@
   width: 1.5rem;
 }
 
-.alterdata-link {
+.svg-inline__fa--bigger {
+  width: 1.7rem;
+}
+
+.company-link {
   color: #490f9e;
 }
 
-.alterdata-link > span {
+.company-link > span {
   color: inherit;
   position: relative;
 }
 
-.alterdata-link > span::after {
+.company-link > span::after {
   content: "";
   position: absolute;
   background-color: #490f9e;
