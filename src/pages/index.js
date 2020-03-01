@@ -63,6 +63,7 @@ const IndexPage = () => (
           className="social-icons__icon"
         >
           <svg className="svg-inline__fa svg-inline__fa--bigger"
+            style={{ marginLeft: "-6px" }}
             aria-hidden="true"
             data-prefix="fab"
             role="img"
