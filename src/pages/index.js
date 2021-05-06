@@ -2,7 +2,6 @@ import React from "react";
 
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-import myself from "./myself.jpg"
 
 import "./index.css";
 
@@ -22,7 +21,7 @@ const IndexPage = () => (
 
     <Layout>
       <section className="intro">
-        <img className="intro__image" src={myself} width={150} height={150}/>
+        <img className="intro__image" src="https://res.cloudinary.com/easyflowlive/image/upload/v1620344893/assets/github/delete/aqcj5kf5nthzmenkpkkw.jpg" width={150} height={150}/>
         <h1 className="intro__name">Hi, I'm Fellipe!</h1>
         <h2 className="intro__summary">
           Software Engineer
