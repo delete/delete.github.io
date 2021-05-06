@@ -4,10 +4,22 @@
   align-items: center;
 }
 
+.intro__image {
+  border-radius: 50%;
+  margin-bottom: 32px;
+}
+
 .intro__name {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 700;
 }
+
+@media screen and (min-width: 600px) {
+  .intro__name {
+    font-size: 3rem;
+  }
+}
+
 .intro__summary {
   font-size: 1.2rem;
   margin: 10px 0;
@@ -40,7 +52,7 @@
 }
 
 .company-link > span::after {
-  content: "";
+  content: '';
   position: absolute;
   background-color: #490f9e;
   bottom: -2px;
